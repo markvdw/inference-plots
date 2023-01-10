@@ -31,10 +31,10 @@ def plot_1d_model(m, data=None, plot_mean=True, plot_var="y", plot_samples=False
     if plot_mean:
         line, = ax.plot(pX, pY, lw=1.5, label="mean")
     if X is not None:
-        ax.plot(X, Y, 'x', color='C1')
+        ax.plot(X, Y, 'x', color='C1', label='data')
     if plot_var is not False:
-        ax.fill_between(pX.flatten(), (pY - 2 * pYv ** 0.5).flatten(), (pY + 2 * pYv ** 0.5).flatten(), alpha=0.3,
-                        label="2$\sigma$ func" if plot_var == "f" else "2$\sigma$ data")
+        ax.fill_between(pX.flatten(), (pY - 2 * pYv ** 0.5).flatten(), (pY + 2 * pYv ** 0.5).flatten(), alpha=0.2,
+                        label="approx. post." if plot_var == "f" else "2$\sigma$ data")
     if plot_samples:
         if plot_samples_z is None:
             plot_samples_z = np.random.randn(len(pX), 10)
@@ -56,10 +56,10 @@ def plot_1d_model(m, data=None, plot_mean=True, plot_var="y", plot_samples=False
     if hasattr(m, 'inducing_variable'):
         # ax.plot(m.inducing_variable.Z.numpy(), np.zeros(m.inducing_variable.Z.numpy().shape), 'k|', mew=2)
         if hasattr(m, 'q_mu'):
-            ax.plot(m.inducing_variable.Z.numpy(), m.q_mu.numpy(), 'k|', mew=2)
+            ax.plot(m.inducing_variable.Z.numpy(), m.q_mu.numpy(), 'o', color='k', mew=2, label="inducing points")
         else:
             q_mu, _ = m.predict_f(m.inducing_variable.Z.numpy())
-            ax.plot(m.inducing_variable.Z.numpy(), q_mu, 'k|', mew=2)
+            ax.plot(m.inducing_variable.Z.numpy(), q_mu, 'o', color='k', mew=2, label="inducing points")
 
 
 def model_training_gif(m, hist, lml_plot=True, plot_var=True, axes_setup=lambda ax: None, **kwargs):
