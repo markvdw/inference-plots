@@ -30,8 +30,6 @@ def plot_1d_model(m, data=None, plot_mean=True, plot_var="y", plot_samples=False
     # Plotting
     if plot_mean:
         line, = ax.plot(pX, pY, lw=1.5, label="mean")
-    if X is not None:
-        ax.plot(X, Y, 'x', color='C1', label='data')
     if plot_var is not False:
         ax.fill_between(pX.flatten(), (pY - 2 * pYv ** 0.5).flatten(), (pY + 2 * pYv ** 0.5).flatten(), alpha=0.2,
                         label="approx. post." if plot_var == "f" else "2$\sigma$ data")
@@ -50,6 +48,8 @@ def plot_1d_model(m, data=None, plot_mean=True, plot_var="y", plot_samples=False
         f_samples = mu + chol @ plot_samples_z
         # m.predict_f_samples(num_samples=10)
         ax.plot(pX.flatten(), f_samples, color='C0', alpha=0.4)
+    if X is not None:
+        ax.plot(X, Y, 'x', color='C1', label='data')
 
     # plt.plot(pX, pY + 2 * pYv ** 0.5, col, lw=1.5)
     # plt.plot(pX, pY - 2 * pYv ** 0.5, col, lw=1.5)
